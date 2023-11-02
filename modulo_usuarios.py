@@ -1,7 +1,8 @@
 import tkinter as tk
 
-def agregar_usuario():
-    pass
+def agregar_usuario(frame):
+    frame_u_agregar = tk.Frame(frame)
+    
 
 def eliminar_usuario():
     pass
