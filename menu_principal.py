@@ -14,7 +14,6 @@ def abrir_usuarios():
     boton_categorias.pack_forget()
     boton_facturacion.pack_forget()
     boton_salir.pack_forget()
-    #otrosFrames.pack_forget()
 
 def abrir_clientes():
     pass
@@ -57,14 +56,13 @@ def volver_menu():
 boton_volver = tk.Button(frame_usuarios, text="Menú principal", command=volver_menu)
 label_usuarios = tk.Label(frame_usuarios, text="¿Qué quieres hacer?")
 boton_u_agregar = tk.Button(frame_usuarios, text="Registrar usuario", command=lambda: agregar_usuario(frame_usuarios).pack())
-boton_u_eliminar = tk.Button(frame_usuarios, text="Eliminar usuario", command=eliminar_usuario)
-boton_u_modificar = tk.Button(frame_usuarios, text="Modificar usuario", command=modificar_usuario)
+boton_u_eliminar = tk.Button(frame_usuarios, text="Eliminar usuario", command=lambda: eliminar_usuario(frame_usuarios).pack())
+boton_u_modificar = tk.Button(frame_usuarios, text="Modificar usuario", command=lambda: modificar_usuario(frame_usuarios).pack())
 
 boton_volver.pack()
 label_usuarios.pack()
 boton_u_agregar.pack()
 boton_u_eliminar.pack()
 boton_u_modificar.pack()
-
 
 app.mainloop()
