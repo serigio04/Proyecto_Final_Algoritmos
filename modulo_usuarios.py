@@ -17,7 +17,6 @@ def agregar_usuario(frame):
     label_u_agregar_contraseña = tk.Label(frame_u_agregar, text="Contraseña: ")
     entrada_u_agregar_nombre = tk.Entry(frame_u_agregar)
     entrada_u_agregar_contraseña = tk.Entry(frame_u_agregar)
-
     label_u_agregar_nombre.pack()
     entrada_u_agregar_nombre.pack()
     label_u_agregar_contraseña.pack()
@@ -64,9 +63,8 @@ def eliminar_usuario(frame):
 
     def eliminar_usuario():
         id_a_eliminar = entrada_u_eliminar_id.get()
-        with open("C:/Archivos/Grupo6/Usuarios.txt", "r") as archivo_u:
+        with open("C:/Archivos/Grupo4/Usuarios.txt", "r") as archivo_u:
             usuarios = archivo_u.readlines()
-
         usuarios_actualizados = []
         usuario_eliminado = False
         for usuario in usuarios:
@@ -77,7 +75,7 @@ def eliminar_usuario(frame):
                 usuario_eliminado = True
 
         if usuario_eliminado:
-            with open("C:/Archivos/Grupo6/Usuarios.txt", "w") as archivo_u:
+            with open("C:/Archivos/Grupo4/Usuarios.txt", "w") as archivo_u:
                 archivo_u.writelines(usuarios_actualizados)
             mostrar_usuarios()
         mostrar_mensaje_exitoso("Operación exitosa: Cliente Eliminado")
