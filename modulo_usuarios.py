@@ -7,6 +7,10 @@ class Usuario():
         self.contraseña =  contraseña
 usuarios = []
 
+def mostrar_mensaje_exitoso(mensaje):
+    exito_label = tk.Label(text=mensaje, fg="green")
+    exito_label.pack()
+
 def agregar_usuario(frame):
     frame_u_agregar = tk.Frame(frame)
     label_u_agregar_nombre = tk.Label(frame_u_agregar, text="Nombre: (usuario)")
@@ -27,6 +31,7 @@ def agregar_usuario(frame):
             with open("C:/Archivos/Grupo4/Usuarios.txt", "a") as archivo_usuarios:
                 archivo_usuarios.write(f"{new_user.id},{new_user.nombre},{new_user.contraseña}\n")
         usuarios.append(new_user)
+        mostrar_mensaje_exitoso("Operación exitosa: Usuario registrado")
 
     boton_registrar_u = tk.Button(frame_u_agregar, text="Registrar usuario", command=registrar_usuario)
     boton_registrar_u.pack()
@@ -43,9 +48,11 @@ def eliminar_usuario(frame):
         with open("C:/Archivos/Grupo4/Usuarios.txt", "r") as archivo_u:
             usuarios = archivo_u.readlines()
             for usuario in usuarios:
-                id, nombre, contraseña = usuario.strip().split(',')
+                datos = usuario.strip().split(',')
+                id = datos[0]
+                nombre = datos[1]
                 usuarios_disponibles.insert(tk.END, f"ID: {id}, Nombre: {nombre}\n")
-                
+
     boton_mostrar_usuarios = tk.Button(frame_u_eliminar, text="Mostrar usuarios disponibles", command=mostrar_usuarios)
     boton_mostrar_usuarios.pack()
     usuarios_disponibles = tk.Text(frame_u_eliminar, width=70, height=10)
@@ -73,8 +80,10 @@ def eliminar_usuario(frame):
             with open("C:/Archivos/Grupo6/Usuarios.txt", "w") as archivo_u:
                 archivo_u.writelines(usuarios_actualizados)
             mostrar_usuarios()
+        mostrar_mensaje_exitoso("Operación exitosa: Cliente Eliminado")
 
-    boton_eliminar_usuario = tk.Button(frame_u_eliminar, text="Eliminar usuario por ID", command=eliminar_usuario)
+
+    boton_eliminar_usuario = tk.Button(frame_u_eliminar, text="Eliminar usuario", command=eliminar_usuario)
     boton_eliminar_usuario.pack()
 
     return frame_u_eliminar
