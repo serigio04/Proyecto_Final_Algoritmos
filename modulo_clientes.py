@@ -1,6 +1,30 @@
 import tkinter as tk
 
+
+class Cliente():
+    def __init__(self, codigo, nombre, direccion, telefono, nit):
+        self.codigo = codigo
+        self.nombre = nombre
+        self.direccion = direccion
+        self.telefono = telefono
+        self.nit = nit
+
 clientes = []
+def mostrar_mensaje_exitoso(mensaje):
+    exito_label = tk.Label(text=mensaje, fg="green")
+    exito_label.pack()
+
+# Función para guardar los clientes en un archivo
+def guardar_clientes_en_archivo():
+    try:
+        with open(r'C:\Archivos\Grupo4\Clientes.txt', 'w') as archivo_clientes:
+            for cliente in clientes:
+                archivo_clientes.write(f"{cliente.codigo},{cliente.nombre},{cliente.direccion},{cliente.telefono},{cliente.nit}\n")
+        mostrar_mensaje_exitoso("Operación exitosa: Datos de clientes guardados.")
+    except Exception as e:
+        mostrar_mensaje_exitoso(f"Error al guardar en el archivo: {e}")
+
+# Función para agregar un cliente
 def agregar_cliente(frame):
     frame_c_agregar = tk.Frame(frame)
     
@@ -34,28 +58,33 @@ def agregar_cliente(frame):
         nit = entry_nit.get()
         
         if codigo and nombre:
-            clientes.append({"Código": codigo, "Nombre": nombre, "Dirección": direccion, "Teléfono": telefono, "NIT": nit})
-            # Puedes guardar los datos en un archivo o base de datos aquí si es necesario.
-
+            nuevo_cliente = Cliente(codigo, nombre, direccion, telefono, nit)
+            clientes.append(nuevo_cliente)
+            guardar_clientes_en_archivo()
+            mostrar_mensaje_exitoso("Operación exitosa: Cliente agregado.")
+            
     boton_registrar_c = tk.Button(frame_c_agregar, text="Registrar Cliente", command=registrar_cliente)
     boton_registrar_c.pack()
 
     return frame_c_agregar
 
+# Función para eliminar un cliente
 def eliminar_cliente(frame):
     frame_c_eliminar = tk.Frame(frame)
     label_cliente_eliminar = tk.Label(frame_c_eliminar, text="Selecciona un cliente:")
     lista_clientes_eliminar = tk.Listbox(frame_c_eliminar)
     
     for cliente in clientes:
-        lista_clientes_eliminar.insert(tk.END, cliente["Código"])
+        lista_clientes_eliminar.insert(tk.END, cliente.codigo)
     
     def eliminar_seleccionado():
         cliente_seleccionado = lista_clientes_eliminar.get(tk.ACTIVE)
         if cliente_seleccionado:
             for cliente in clientes:
-                if cliente["Código"] == cliente_seleccionado:
+                if cliente.codigo == cliente_seleccionado:
                     clientes.remove(cliente)
+                    guardar_clientes_en_archivo()
+                    mostrar_mensaje_exitoso("Operación exitosa: Cliente eliminado.")
                     break
 
     label_cliente_eliminar.pack()
@@ -66,14 +95,14 @@ def eliminar_cliente(frame):
 
     return frame_c_eliminar
 
-# Función para modificar un cliente en el módulo de clientes
+# Función para modificar un cliente
 def modificar_cliente(frame):
     frame_c_modificar = tk.Frame(frame)
     label_cliente_modificar = tk.Label(frame_c_modificar, text="Selecciona un cliente:")
     lista_clientes_modificar = tk.Listbox(frame_c_modificar)
     
     for cliente in clientes:
-        lista_clientes_modificar.insert(tk.END, cliente["Código"])
+        lista_clientes_modificar.insert(tk.END, cliente.codigo)
     
     label_cliente_modificar.pack()
     lista_clientes_modificar.pack()
@@ -108,15 +137,31 @@ def modificar_cliente(frame):
         nuevo_telefono = entry_nuevo_telefono.get()
         nuevo_nit = entry_nuevo_nit.get()
         for cliente in clientes:
-            if cliente["Código"] == cliente_seleccionado:
-                cliente["Código"] = nuevo_codigo
-                cliente["Nombre"] = nuevo_nombre
-                cliente["Dirección"] = nueva_direccion
-                cliente["Teléfono"] = nuevo_telefono
-                cliente["NIT"] = nuevo_nit
+            if cliente.codigo == cliente_seleccionado:
+                cliente.codigo = nuevo_codigo
+                cliente.nombre = nuevo_nombre
+                cliente.direccion = nueva_direccion
+                cliente.telefono = nuevo_telefono
+                cliente.nit = nuevo_nit
+                guardar_clientes_en_archivo()
+                mostrar_mensaje_exitoso("Operación exitosa: Cliente modificado.")
                 break
 
     boton_modificar_seleccionado = tk.Button(frame_c_modificar, text="Modificar Cliente", command=modificar_seleccionado)
     boton_modificar_seleccionado.pack()
 
     return frame_c_modificar
+
+# Función principal
+if __name__ == "__main__":
+    app = tk.Tk()
+    app.title("Módulo de Clientes")
+    app.geometry("600x500")
+
+    frame_clientes = tk.Frame(app)
+
+    boton_volver_clientes = tk.Button(frame_clientes, text="Menú principal")
+    label_clientes = tk.Label(frame_clientes, text="¿Qué quieres hacer?")
+    boton_c_agregar = tk.Button(frame_clientes, text="Agregar Cliente")
+    boton_c_eliminar = tk.Button(frame_clientes, text="Eliminar Cliente")
+    boton_c_modificar = tk.Button(frame_clientes,)
