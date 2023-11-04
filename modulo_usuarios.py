@@ -34,34 +34,51 @@ def agregar_usuario(frame):
     return frame_u_agregar
 
 
+def eliminar_usuario(frame):
+    frame_u_eliminar = tk.Frame(frame)
 
-def eliminar_usuario(usuarios_disponibles, entrada_nombre):
-    nombre_a_eliminar = entrada_nombre.get()
-
-    try:
-        with open("C:/Archivos/Grupo4/Usuarios.txt", "r") as archivo_usuarios:
-            usuarios_registrados = archivo_usuarios.readlines()
-
-        # Abre el archivo en modo escritura "w" para sobrescribirlo
-        with open("C:/Archivos/Grupo4/Usuarios.txt", "w") as archivo_usuarios:
-            for usuario in usuarios_registrados:
-                if not usuario.startswith(nombre_a_eliminar):  # No escribas el usuario a eliminar
-                    archivo_usuarios.write(usuario)
-
-        # Muestra la lista de usuarios actualizada
+    def mostrar_usuarios():
         usuarios_disponibles.delete("1.0", tk.END)
-        usuarios_disponibles.insert(tk.END, "Usuarios Registrados:\n")
-        for usuario in usuarios_registrados:
-            usuarios_disponibles.insert(tk.END, usuario)
+        usuarios_disponibles.insert(tk.END, "Usuarios:\n")
+        with open("C:/Archivos/Grupo4/Usuarios.txt", "r") as archivo_u:
+            usuarios = archivo_u.readlines()
+            for usuario in usuarios:
+                id, nombre, contraseña = usuario.strip().split(',')
+                usuarios_disponibles.insert(tk.END, f"ID: {id}, Nombre: {nombre}\n")
+                
+    boton_mostrar_usuarios = tk.Button(frame_u_eliminar, text="Mostrar usuarios disponibles", command=mostrar_usuarios)
+    boton_mostrar_usuarios.pack()
+    usuarios_disponibles = tk.Text(frame_u_eliminar, width=70, height=10)
+    usuarios_disponibles.pack()
+    label_u_eliminar_id = tk.Label(frame_u_eliminar, text="ID del usuario a eliminar:")
+    entrada_u_eliminar_id = tk.Entry(frame_u_eliminar)
+    label_u_eliminar_id.pack()
+    entrada_u_eliminar_id.pack()
 
-    except FileNotFoundError:
-        usuarios_disponibles.delete("1.0", tk.END)
-        usuarios_disponibles.insert(tk.END, "El archivo de usuarios no existe o está vacío.")
+    def eliminar_usuario():
+        id_a_eliminar = entrada_u_eliminar_id.get()
+        with open("C:/Archivos/Grupo6/Usuarios.txt", "r") as archivo_u:
+            usuarios = archivo_u.readlines()
 
-    # Limpia la entrada de nombre después de eliminar
-    entrada_nombre.delete(0, tk.END)
-    boton_eliminar_usuario = tk.Button(frame_u_eliminar, text="Eliminar usuario", command=lambda: eliminar_usuario(usuarios_disponibles, entrada_u_eliminar_nombre))
+        usuarios_actualizados = []
+        usuario_eliminado = False
+        for usuario in usuarios:
+            id, nombre, contraseña = usuario.strip().split(',')
+            if id != id_a_eliminar:
+                usuarios_actualizados.append(usuario)
+            else:
+                usuario_eliminado = True
+
+        if usuario_eliminado:
+            with open("C:/Archivos/Grupo6/Usuarios.txt", "w") as archivo_u:
+                archivo_u.writelines(usuarios_actualizados)
+            mostrar_usuarios()
+
+    boton_eliminar_usuario = tk.Button(frame_u_eliminar, text="Eliminar usuario por ID", command=eliminar_usuario)
     boton_eliminar_usuario.pack()
+
+    return frame_u_eliminar
+
 
 def modificar_usuario(frame):
     frame_u_modificar = tk.Frame(frame)
@@ -75,4 +92,3 @@ def modificar_usuario(frame):
     label_u_modificar_contraseña.pack()
     entrada_u_modificar_contraseña.pack()
     return frame_u_modificar
-
