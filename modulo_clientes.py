@@ -1,5 +1,11 @@
 import tkinter as tk
-
+class Cliente():
+    def __init__(self, id, nombre, direccion, telefono, nit):
+        self.id = id
+        self.nombre = nombre
+        self.direccion = direccion
+        self.telefono = telefono
+        self.nit = nit
 clientes = []
 def agregar_cliente(frame):
     frame_c_agregar = tk.Frame(frame)
