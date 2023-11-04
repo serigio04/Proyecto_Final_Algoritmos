@@ -17,7 +17,18 @@ def agregar_cliente():
     nit = entry_nit.get()
     clientes.append({"Código": codigo, "Nombre": nombre, "Dirección": direccion, "Teléfono": telefono, "NIT": nit})
     actualizar_lista_clientes()
-
+def registrar_usuario():
+        nombre = entrada_u_agregar_nombre.get()
+        codigo = entrada_u_agregar_codigo.get()
+        direccion = entrada_u_agregar_direccion.get()
+        telefono = entrada_u_agregar_telefono.get()
+        nit = entrada_u_agregar_nit.get()
+        if nombre, codigo, direccion, telefono and nit:
+            codigo_Cliente = len(clientes) + 1
+            new_ cliente = Cliente(id_user, name, password)
+            with open("C:/Archivos/Grupo4/Usuarios.txt", "a") as archivo_usuarios:
+                archivo_usuarios.write(f"{codigo_Cliente.id},{new_cliente.nombre},{new_cliente.direccion}\n")
+        clientes.append(new_user)
 # Función para eliminar un cliente seleccionado
 def eliminar_cliente():
     cliente_seleccionado = lista_clientes.get(tk.ACTIVE)
