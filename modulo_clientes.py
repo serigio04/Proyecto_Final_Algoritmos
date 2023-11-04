@@ -19,8 +19,7 @@ def mostrar_mensaje_exitoso(mensaje):
 # Función para guardar los clientes en un archivo
 def guardar_clientes_en_archivo():
     try:
-        os.makedirs(r'C:\Clientes\Grupo4', exist_ok=True)
-        with open(r'C:\Clientes\Grupo4\clientes.txt', 'w') as archivo_clientes:
+        with open(r'C:\Archivos\Grupo4\Clientes.txt', 'w') as archivo_clientes:
             for cliente in clientes:
                 archivo_clientes.write(f"{cliente.codigo},{cliente.nombre},{cliente.direccion},{cliente.telefono},{cliente.nit}\n")
         mostrar_mensaje_exitoso("Operación exitosa: Datos de clientes guardados.")
@@ -167,5 +166,7 @@ if __name__ == "__main__":
     label_clientes = tk.Label(frame_clientes, text="¿Qué quieres hacer?")
     boton_c_agregar = tk.Button(frame_clientes, text="Agregar Cliente")
     boton_c_eliminar = tk.Button(frame_clientes, text="Eliminar Cliente")
-    boton_c_modificar = tk.Button(frame_clientes,
+    boton_c_modificar = tk.Button(frame_clientes,)
+
+
 
