@@ -1,6 +1,7 @@
 import tkinter as tk
 from modulo_usuarios import agregar_usuario, eliminar_usuario, modificar_usuario
 from modulo_clientes import agregar_cliente, eliminar_cliente, modificar_cliente
+from modulo_productos import agregar_producto, modificar_producto, consultar_producto
 
 #pantalla del menú
 app = tk.Tk()
@@ -27,7 +28,15 @@ def abrir_clientes():
 
 
 def abrir_productos():
-    pass
+    frame_productos.pack()
+    boton_usuarios.pack_forget()
+    boton_clientes.pack_forget()
+    boton_productos.pack_forget()
+    boton_categorias.pack_forget()
+    boton_facturacion.pack_forget()
+    boton_salir.pack_forget()
+
+
 
 def abrir_categorias():
     pass
@@ -69,6 +78,17 @@ def volver_menu_c():
     boton_categorias.pack()
     boton_facturacion.pack()
 
+    
+def volver_menu_p():
+    frame_productos.pack_forget()
+    boton_usuarios.pack()
+    boton_clientes.pack()
+    boton_productos.pack()
+    boton_categorias.pack()
+    boton_facturacion.pack()
+
+
+
 boton_volver = tk.Button(frame_usuarios, text="Menú principal", command=volver_menu_u)
 label_usuarios = tk.Label(frame_usuarios, text="¿Qué quieres hacer?")
 boton_u_agregar = tk.Button(frame_usuarios, text="Registrar usuario", command=lambda: agregar_usuario(frame_usuarios).pack())
@@ -97,4 +117,19 @@ boton_c_agregar.pack()
 boton_c_eliminar.pack()
 boton_c_modificar.pack()
 
+# frame productos
+frame_productos = tk.Frame(app)
+
+
+boton_volver_p = tk.Button(frame_productos, text="Menú principal", command=volver_menu_p)
+label_productos = tk.Label(frame_productos, text="¿Qué quieres hacer?")
+boton_p_agregar = tk.Button(frame_productos, text="Agregar Producto", command=lambda: agregar_producto(frame_productos).pack())
+boton_p_modificar = tk.Button(frame_productos, text="Modificar datos del Producto", command=lambda: modificar_producto(frame_productos).pack())
+boton_p_consultar = tk.Button(frame_productos, text="Consulta de Inventario", command=lambda: consultar_producto(frame_productos).pack())
+
+boton_volver_p.pack()
+label_productos.pack()
+boton_p_agregar.pack()
+boton_p_modificar.pack()
+boton_p_consultar.pack()
 app.mainloop()
