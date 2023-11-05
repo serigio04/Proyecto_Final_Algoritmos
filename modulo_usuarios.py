@@ -140,23 +140,26 @@ def modificar_usuario(frame):
 
         with open("C:/Archivos/Grupo4/Usuarios.txt", "r") as archivo_usuarios:
             usuarios = archivo_usuarios.readlines()
-        usuario_modificado = False
+
+        usuarios_actualizados = []
+
         for usuario in usuarios:
             datos = usuario.strip().split(',')
             id = datos[0]
             if id == id_a_modificar:
-                usuario_modificado = True
                 if name:
                     datos[1] = name
                 if password:
                     datos[2] = password
+                usuario_actualizado = ",".join(datos)
+                usuarios_actualizados.append(usuario_actualizado)
+            else:
+                usuarios_actualizados.append(usuario)
 
-        if usuario_modificado:
-            with open("C:/Archivos/Grupo4/Usuarios.txt", "w") as archivo_usuarios:
-                archivo_usuarios.writelines(f"{id},{name},{password}")
-            mostrar_mensaje("Operación exitosa: Usuario modificado")
-        else:
-            mostrar_mensaje_err("Usuario no encontrado o campos en blanco")
+        with open("C:/Archivos/Grupo4/Usuarios.txt", "w") as archivo_usuarios:
+            archivo_usuarios.writelines("\n".join(usuarios_actualizados))
+
+        mostrar_mensaje("Operación exitosa: Usuario modificado")
 
     boton_modificar_usuario = tk.Button(frame_u_modificar, text="Modificar usuario", command=modificar_user)
     boton_modificar_usuario.pack()
