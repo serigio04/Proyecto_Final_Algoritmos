@@ -12,7 +12,7 @@ mainFrame.config(width=400, height=320, bg="white")
 
 # Textos y títulos
 titulo = Label(mainFrame, text="Login  ", font=("Arial", 25))
-titulo.grid(column=0, row=0, padx=10, pady=10)
+(titulo.pack)(column=0, row=0, padx=10, pady=10)
 
 nombreLabel = Label(mainFrame, text="Nombre: ")
 nombreLabel.grid(column=0, row=1)
