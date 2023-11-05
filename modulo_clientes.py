@@ -18,7 +18,7 @@ def mostrar_mensaje_exitoso(mensaje):
 # Función para cargar los clientes desde un archivo
 def cargar_clientes_desde_archivo():
     try:
-        with open("C:/Archivos/Grupo4/Clientes.txt", 'r') as archivo_clientes:
+        with open("Clientes.txt", 'r') as archivo_clientes:
             for linea in archivo_clientes:
                 codigo, nombre, direccion, telefono, nit = linea.strip().split(",")
                 clientes.append(Cliente(codigo, nombre, direccion, telefono, nit))
@@ -28,7 +28,7 @@ def cargar_clientes_desde_archivo():
 # Función para guardar los clientes en un archivo
 def guardar_clientes_en_archivo():
     try:
-        with open("C:/Archivos/Grupo4/Clientes.txt", 'w') as archivo_clientes:
+        with open("Clientes.txt", 'w') as archivo_clientes:
             for cliente in clientes:
                 archivo_clientes.write(f"{cliente.codigo},{cliente.nombre},{cliente.direccion},{cliente.telefono},{cliente.nit}\n")
         mostrar_mensaje_exitoso("Operación exitosa: Datos de clientes guardados.")
@@ -79,7 +79,7 @@ def agregar_cliente(frame):
     return frame_c_agregar
 
 # Función para eliminar un cliente
-def eliminar_cliente(frame):
+def eliminar_cliente(frame, lista_clientes_eliminar):
     frame_c_eliminar = tk.Frame(frame)
     label_cliente_eliminar = tk.Label(frame_c_eliminar, text="Selecciona un cliente:")
     lista_clientes_eliminar = tk.Listbox(frame_c_eliminar)
@@ -94,8 +94,7 @@ def eliminar_cliente(frame):
                 if cliente.codigo == cliente_seleccionado:
                     clientes.remove(cliente)
                     guardar_clientes_en_archivo()
-                    cargar_clientes_desde_archivo()
-                    actualizar_lista_clientes()
+                    actualizar_lista_clientes(lista_clientes_eliminar)  # Actualiza la lista
                     mostrar_mensaje_exitoso("Operación exitosa: Cliente eliminado.")
                     break
 
@@ -108,7 +107,7 @@ def eliminar_cliente(frame):
     return frame_c_eliminar
 
 # Función para modificar un cliente
-def modificar_cliente(frame):
+def modificar_cliente(frame, lista_clientes_modificar):
     frame_c_modificar = tk.Frame(frame)
     label_cliente_modificar = tk.Label(frame_c_modificar, text="Selecciona un cliente:")
     lista_clientes_modificar = tk.Listbox(frame_c_modificar)
@@ -158,7 +157,7 @@ def modificar_cliente(frame):
                 cliente.nit = nuevo_nit
                 guardar_clientes_en_archivo()
                 cargar_clientes_desde_archivo()
-                actualizar_lista_clientes()
+                actualizar_lista_clientes(lista_clientes_modificar)  # Actualiza la lista
                 mostrar_mensaje_exitoso("Operación exitosa: Cliente modificado.")
                 break
 
@@ -168,9 +167,54 @@ def modificar_cliente(frame):
     return frame_c_modificar
 
 # Función para actualizar la lista de clientes en el frame
-def actualizar_lista_clientes():
-    lista_clientes_eliminar.delete(0, tk.END)
-    lista_clientes_modificar.delete(0, tk.END)
+def actualizar_lista_clientes(lista):
+    lista.delete(0, tk.END)
     for cliente in clientes:
-        lista_clientes_eliminar.insert(tk.END, cliente.codigo)
-        lista_clientes_modificar.insert(tk.END, cliente.codigo)
+        lista.insert(tk.END, cliente.codigo)
+
+if __name__ == "__main__":
+    app = tk.Tk()
+    app.title("Módulo de Clientes")
+    app.geometry("600x500")
+
+    # Crear una lista para almacenar los códigos de los clientes
+    lista_clientes_eliminar = tk.Listbox(app)
+    lista_clientes_modificar = tk.Listbox(app)
+
+    # Cargar clientes desde el archivo
+    cargar_clientes_desde_archivo()
+
+    # Inicializar los frames
+    frame_agregar = agregar_cliente(app)
+    frame_eliminar = eliminar_cliente(app, lista_clientes_eliminar)
+    frame_modificar = modificar_cliente(app, lista_clientes_modificar)
+
+    # Funciones para mostrar los frames correspondientes
+    def mostrar_agregar():
+        frame_eliminar.pack_forget()
+        frame_modificar.pack_forget()
+        frame_agregar.pack()
+
+    def mostrar_eliminar():
+        frame_agregar.pack_forget()
+        frame_modificar.pack_forget()
+        frame_eliminar.pack()
+
+    def mostrar_modificar():
+        frame_agregar.pack_forget()
+        frame_eliminar.pack_forget()
+        frame_modificar.pack()
+
+    boton_agregar = tk.Button(app, text="Agregar Cliente", command=mostrar_agregar)
+    boton_eliminar = tk.Button(app, text="Eliminar Cliente", command=mostrar_eliminar)
+    boton_modificar = tk.Button(app, text="Modificar Cliente", command=mostrar_modificar)
+
+    # Mostrar el frame de agregar al inicio
+    mostrar_agregar()
+
+    # Botones para seleccionar la operación
+    boton_agregar.pack()
+    boton_eliminar.pack()
+    boton_modificar.pack()
+
+    app.mainloop()
