@@ -96,9 +96,7 @@ def eliminar_usuario(frame):
 
     boton_eliminar_usuario = tk.Button(frame_u_eliminar, text="Eliminar usuario", command=eliminar_usuario)
     boton_eliminar_usuario.pack()
-
     return frame_u_eliminar
-
 
 def modificar_usuario(frame):
     frame_u_modificar = tk.Frame(frame)
@@ -158,8 +156,10 @@ def modificar_usuario(frame):
 
         with open("C:/Archivos/Grupo4/Usuarios.txt", "w") as archivo_usuarios:
             archivo_usuarios.writelines("\n".join(usuarios_actualizados))
+            archivo_usuarios.write("")
+            mostrar_mensaje("Operación exitosa: Usuario modificado")
 
-        mostrar_mensaje("Operación exitosa: Usuario modificado")
+        mostrar_usuarios()
 
     boton_modificar_usuario = tk.Button(frame_u_modificar, text="Modificar usuario", command=modificar_user)
     boton_modificar_usuario.pack()
