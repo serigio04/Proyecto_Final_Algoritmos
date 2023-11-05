@@ -14,7 +14,17 @@ def mostrar_mensaje_err(mensaje):
     exito_label = tk.Label(text=mensaje, fg="red")
     exito_label.pack()
 
+frame_abierto = None
+
+def ocultar_frame():
+    global frame_abierto
+    if frame_abierto: 
+        frame_abierto.pack_forget()
+
 def agregar_usuario(frame):
+    global frame_abierto
+    ocultar_frame()
+    frame_abierto = frame_u_agregar
     frame_u_agregar = tk.Frame(frame)
     label_u_agregar_nombre = tk.Label(frame_u_agregar, text="Nombre: (usuario)")
     label_u_agregar_contrasenia = tk.Label(frame_u_agregar, text="contraseña: ")
@@ -132,6 +142,7 @@ def modificar_usuario(frame):
     entrada_u_modificar_id.pack()
 
     def modificar_user():
+
         id_a_modificar = entrada_u_modificar_id.get()
         name = entrada_u_modificar_nombre.get()
         password = entrada_u_modificar_contrasenia.get()
